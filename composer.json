@@ -1,0 +1,12 @@
+{
+    "name": "mdbottino/forms",
+    "description": "Framework agnostic HTML Form rendering",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcelo Daniel Bottino",
+            "email": "mdbottino@gmail.com"
+        }
+    ]
+}
