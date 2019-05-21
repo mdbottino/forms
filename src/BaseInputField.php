@@ -1,6 +1,6 @@
 <?php
 
-namespace mdbottino\Forms\Base;
+namespace mdbottino\Forms;
 
 class BaseInputField extends BaseField {
 

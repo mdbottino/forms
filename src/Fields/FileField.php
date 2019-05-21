@@ -2,7 +2,7 @@
 
 namespace mdbottino\Forms\Fields;
 
-use mdbottino\Forms\Base\BaseInputField;
+use mdbottino\Forms\BaseInputField;
 
 class FileField extends BaseInputField {
 

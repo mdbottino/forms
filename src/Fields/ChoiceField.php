@@ -2,7 +2,7 @@
 
 namespace mdbottino\Forms\Fields;
 
-use mdbottino\Forms\Base\BaseField;
+use mdbottino\Forms\BaseField;
 
 class ChoiceField extends BaseField {
 
