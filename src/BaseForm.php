@@ -55,7 +55,7 @@ class BaseForm {
     }
 
     protected function enctype(){
-        $acceptedEnctypes = [
+        $accepted_enctypes = [
             self::ENCTYPE_MULTIPART,
             self::ENCTYPE_PLAIN
         ];
@@ -68,7 +68,7 @@ class BaseForm {
         }        
 
         if (!is_null($this->enctype)){
-            if ($this->enctype !== self::ENCTYPE_DEFAULT && in_array($this->enctype, $acceptedEnctypes)){
+            if ($this->enctype !== self::ENCTYPE_DEFAULT && in_array($this->enctype, $accepted_enctypes)){
                 return "enctype='".$this->enctype."'";
             } 
         }
