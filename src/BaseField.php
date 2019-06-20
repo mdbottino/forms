@@ -7,6 +7,7 @@ abstract class BaseField {
 
     protected $name;
     protected $label;
+    protected $label_class = null;
     protected $data;
     protected $attrs = [];
     protected $type;
@@ -74,6 +75,10 @@ abstract class BaseField {
         if (isset($options['required_text'])){
             $this->required_text = $options['required_text'];
         }
+
+        if (isset($options['label_class'])){
+            $this->label_class = $options['label_class'];
+        }
     }
 
     public function setData($data){
@@ -84,7 +89,8 @@ abstract class BaseField {
         $label = $this->label;
         $id = $this->id();
         $required = $this->required ? $this->required_text : '';
-        return "<label for='$id'>$label $required</label>\n";
+        $class = $this->label_class ? $this->label_class : '';
+        return "<label for='$id' class='$class'>$label $required</label>\n";
     }
 
     public function id(){
