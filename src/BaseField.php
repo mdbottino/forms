@@ -4,6 +4,7 @@ namespace mdbottino\Forms;
 
 abstract class BaseField {
     
+
     protected $name;
     protected $label;
     protected $data;
@@ -12,12 +13,36 @@ abstract class BaseField {
     protected $required = false;
     protected $required_text = null;
 
+    protected $valid_attrs = [
+        'class',
+        'size',
+        'required',
+        'readonly',
+        'disabled',
+        'formnovalidate',
+        'pattern',
+        'form',
+        'autofocus',
+        'autocomplete',
+    ];
+    
+    protected $valid_field_attrs = [];
+
     protected function attr($k, $v){
         return "$k='$v'";
     }
 
+    protected function validate($k){
+        return in_array($k, $this->valid_attrs) || in_array($k, $this->valid_field_attrs);
+    }
+
     protected function field_attrs(){
-        $attrs = array_map([$this, 'attr'], array_keys($this->attrs), $this->attrs);
+        $attrs = [];
+        foreach ($this->attrs as $key => $value) {
+            if ($this->validate($key)){
+                $attrs[] = $this->attr($key, $value);
+            }
+        }
         return join(' ', $attrs);
     }
 
