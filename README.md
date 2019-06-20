@@ -22,7 +22,7 @@ In order to use in a template (or plain PHP if you so desire) you have to subcla
 
 Basic example:
 ```PHP
-	use mdbottino\Forms\Base\BaseForm;
+	use mdbottino\Forms\BaseForm;
 	use mdbottino\Forms\Fields\TextField;
 
 	class BasicForm extends BaseForm {
@@ -102,7 +102,7 @@ One of them is *attrs*, which equates to the attributes of the rendered field. I
 
 
 ```PHP
-	use mdbottino\Forms\Base\BaseForm;
+	use mdbottino\Forms\BaseForm;
 	use mdbottino\Forms\Fields\TextField;
 	use mdbottino\Forms\Fields\EmailField;
 
