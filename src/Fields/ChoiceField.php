@@ -75,6 +75,6 @@ class ChoiceField extends BaseField {
 
         $html[] = '</select>';
 
-        return join($html, "\n");
+        return implode($html);
     }
 }
