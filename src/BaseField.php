@@ -44,7 +44,7 @@ abstract class BaseField {
                 $attrs[] = $this->attr($key, $value);
             }
         }
-        return implode($attrs, ' ');
+        return implode(' ', $attrs);
     }
 
     public function __construct($name, $label, array $options=null){
