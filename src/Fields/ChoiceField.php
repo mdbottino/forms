@@ -45,7 +45,7 @@ class ChoiceField extends BaseField {
         $name = $this->name;
         $id = $this->id();
         $type = $this->type();
-        $data = !is_null($old) ? $old : $this->data;
+        $data = $this->data($old);
         $attrs = $this->field_attrs();
         $required = $this->required ? 'required' : '';
 

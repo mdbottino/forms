@@ -14,7 +14,7 @@ class CheckboxField extends BaseField {
         $type = $this->type();
         $id = $this->id();
         $name = $this->name();
-        $data = !is_null($old) ? $old : $this->data;
+        $data = $this->data($old);
         $checked = (boolean) $data ? 'checked' : '';
         $attrs = $this->field_attrs();
         $required = $this->required ? 'required' : '';
