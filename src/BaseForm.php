@@ -127,6 +127,11 @@ class BaseForm {
         return $this->fields;
     }
 
+    public function addField(BaseField $field){
+        array_push($this->fields, $field);
+        $this->length += 1;
+    }
+
     public function countFieldsForLayout(){
         return $this->length;
     }
