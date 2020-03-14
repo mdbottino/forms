@@ -105,5 +105,9 @@ abstract class BaseField {
         return $this->name;
     }
 
+    public function data($old = null){
+        return !is_null($old) ? $old : $this->data;
+    }
+
     abstract public function widget($old);
 }
