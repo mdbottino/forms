@@ -2,23 +2,20 @@
 
 namespace mdbottino\Forms\Fields;
 
-use mdbottino\Forms\BaseField;
+use mdbottino\Forms\BaseInputField;
 
-class CheckboxField extends BaseField {
+class CheckboxField extends BaseInputField {
 
     protected $valid_field_attrs = ['checked'];
-
+    protected $template = "<input id=':id' name=':name' type=':type' :checked :attrs :required>";
     protected $type = 'checkbox';
 
-    public function widget($old){
-        $type = $this->type();
-        $id = $this->id();
-        $name = $this->name();
+    protected function vars($old){
         $data = $this->data($old);
-        $checked = (boolean) $data ? 'checked' : '';
-        $attrs = $this->field_attrs();
-        $required = $this->required ? 'required' : '';
 
-        return "<input id='$id' name='$name' type='$type' $checked $attrs $required> \n";
+        $vars = parent::vars($old);
+        $vars[':checked'] = (boolean) $data ? 'checked' : '';
+
+        return $vars;
     }
 }

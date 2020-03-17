@@ -2,8 +2,7 @@
 
 namespace mdbottino\Forms;
 
-abstract class BaseField {
-    
+class BaseField {
 
     protected $name;
     protected $label;
@@ -13,6 +12,8 @@ abstract class BaseField {
     protected $type;
     protected $required = false;
     protected $required_text = null;
+
+    protected $template = '';
 
     protected $valid_attrs = [
         'class',
@@ -45,6 +46,21 @@ abstract class BaseField {
             }
         }
         return implode(' ', $attrs);
+    }
+
+    protected function render($vars){
+        return strtr($this->template, $vars);
+    }
+
+    protected function vars($old=null){
+        return [
+            ':name' => $this->name,
+            ':id' => $this->id(),
+            ':type' => $this->type(),
+            ':data' => $this->data($old),
+            ':attrs' => $this->field_attrs(),
+            ':required' => $this->required ? 'required' : '',
+        ];
     }
 
     public function __construct($name, $label, array $options=null){
@@ -90,7 +106,7 @@ abstract class BaseField {
         $id = $this->id();
         $required = $this->required ? $this->required_text : '';
         $class = $this->label_class ? $this->label_class : '';
-        return "<label for='$id' class='$class'>$label $required</label>\n";
+        return "<label for='$id' class='$class'>$label $required</label>";
     }
 
     public function id(){
@@ -107,7 +123,9 @@ abstract class BaseField {
 
     public function data($old = null){
         return !is_null($old) ? $old : $this->data;
-    }
+    } 
 
-    abstract public function widget($old);
+    public function widget($old=null){
+        return $this->render($this->vars($old));
+    }
 }
