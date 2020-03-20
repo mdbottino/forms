@@ -4,9 +4,25 @@ namespace mdbottino\Forms;
 
 class BaseForm {
 
+    /* Valid Enctypes */
     const ENCTYPE_DEFAULT = 'application/x-www-form-urlencoded';
     const ENCTYPE_MULTIPART = 'multipart/form-data';
     const ENCTYPE_PLAIN = 'text/plain';
+
+    const ENCTYPES = [
+        self::ENCTYPE_DEFAULT,
+        self::ENCTYPE_MULTIPART,
+        self::ENCTYPE_PLAIN,
+    ];
+
+    /* Valid Methods */
+    const METHOD_GET = 'GET';
+    const METHOD_POST = 'POST';
+
+    const METHODS = [
+        self::METHOD_GET,
+        self::METHOD_POST,
+    ];
 
     /*
      *  Each entry should have the following format:
@@ -31,7 +47,7 @@ class BaseForm {
 
     protected $enctype = null;
 
-    protected $method = 'POST';
+    protected $method = self::METHOD_POST;
 
     protected $action = null;
 
@@ -55,11 +71,6 @@ class BaseForm {
     }
 
     protected function enctype(){
-        $accepted_enctypes = [
-            self::ENCTYPE_MULTIPART,
-            self::ENCTYPE_PLAIN
-        ];
-
         foreach ($this->fields as $field){
             if($field->type() === 'file'){
                 $this->enctype = self::ENCTYPE_MULTIPART;
@@ -68,9 +79,9 @@ class BaseForm {
         }        
 
         if (!is_null($this->enctype)){
-            if ($this->enctype !== self::ENCTYPE_DEFAULT && in_array($this->enctype, $accepted_enctypes)){
+            if ($this->enctype !== self::ENCTYPE_DEFAULT){
                 return "enctype='".$this->enctype."'";
-            } 
+            }
         }
         return '';
     }
@@ -83,10 +94,7 @@ class BaseForm {
     }
 
     protected function method(){      
-        if (!is_null($this->method)){
-            return "method='".$this->method."'";
-        }
-        return "method='POST'";
+        return "method='".$this->method."'";
     }
 
     public function __construct($src=null) {
@@ -112,15 +120,26 @@ class BaseForm {
     }
 
     public function setMethod($method){
-        $this->method = strtoupper($method);
+        $method = strtoupper($method);
+        if (in_array($method, self::METHODS)){
+            $this->method = $method;
+            return true;
+        }
+        return false;
     }
 
     public function setAction($action){
-        $this->action = $action;
+        $this->action = htmlspecialchars($action);
+        return true;
     }
 
     public function setEnctype($enctype){
-        $this->enctype = strtolower($enctype);
+        $enctype = strtolower($enctype);
+        if (in_array($enctype, self::ENCTYPES)){
+            $this->enctype = $enctype;
+            return true;
+        }
+        return false;
     }
 
     public function fields(){

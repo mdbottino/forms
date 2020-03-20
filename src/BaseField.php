@@ -31,7 +31,8 @@ class BaseField {
     protected $valid_field_attrs = [];
 
     protected function attr($k, $v){
-        return "$k='$v'";
+        $value = htmlspecialchars((string) $v);
+        return "$k='$value'";
     }
 
     protected function validate($k){
@@ -54,7 +55,7 @@ class BaseField {
 
     protected function vars($old=null){
         return [
-            ':name' => $this->name,
+            ':name' => $this->name(),
             ':id' => $this->id(),
             ':type' => $this->type(),
             ':data' => $this->data($old),
@@ -104,13 +105,13 @@ class BaseField {
     public function label(){
         $label = $this->label;
         $id = $this->id();
-        $required = $this->required ? $this->required_text : '';
-        $class = $this->label_class ? $this->label_class : '';
+        $required = $this->required ? htmlspecialchars($this->required_text) : '';
+        $class = $this->label_class ? htmlspecialchars($this->label_class) : '';
         return "<label for='$id' class='$class'>$label $required</label>";
     }
 
     public function id(){
-        return "id_" . $this->name;
+        return "id_" . $this->name();
     }
 
     public function type(){
@@ -118,7 +119,7 @@ class BaseField {
     }
 
     public function name(){
-        return $this->name;
+        return htmlspecialchars($this->name);
     }
 
     public function data($old = null){
