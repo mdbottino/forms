@@ -14,6 +14,8 @@ class BaseField {
     protected $required_text = null;
 
     protected $template = '';
+    protected $label_template = "<label for=':id' class=':class'>:text :required</label>";
+    protected $description_template = "<small>:description</small>";
 
     protected $valid_attrs = [
         'class',
@@ -49,8 +51,8 @@ class BaseField {
         return implode(' ', $attrs);
     }
 
-    protected function render($vars){
-        return strtr($this->template, $vars);
+    protected function render($template, $vars){
+        return strtr($template, $vars);
     }
 
     protected function vars($old=null){
@@ -96,18 +98,14 @@ class BaseField {
         if (isset($options['label_class'])){
             $this->label_class = $options['label_class'];
         }
+
+        if (isset($options['description'])){
+            $this->description = $options['description'];
+        }
     }
 
     public function setData($data){
         $this->data = $data;
-    }
-
-    public function label(){
-        $label = $this->label;
-        $id = $this->id();
-        $required = $this->required ? htmlspecialchars($this->required_text) : '';
-        $class = $this->label_class ? htmlspecialchars($this->label_class) : '';
-        return "<label for='$id' class='$class'>$label $required</label>";
     }
 
     public function id(){
@@ -126,7 +124,29 @@ class BaseField {
         return !is_null($old) ? $old : $this->data;
     } 
 
-    public function widget($old=null){
-        return $this->render($this->vars($old));
+    public function label(){
+        $vars = [
+            ':text' => $this->label,
+            ':id' => $this->id(),
+            ':required' => $this->required ? $this->required_text : '',
+            ':class' => $this->label_class ? htmlspecialchars($this->label_class) : '',
+        ];
+        return $this->render(
+            $this->label_template,
+            $vars
+        );
     }
+
+
+    public function widget($old=null){
+        return $this->render($this->template, $this->vars($old));
+    }
+
+    public function description(){
+        return $this->render(
+            $this->description_template, 
+            [':description' => htmlspecialchars($this->description)]
+        );
+    }
+
 }
