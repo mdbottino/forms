@@ -10,6 +10,7 @@ class BaseField {
     protected $data;
     protected $attrs = [];
     protected $type;
+    protected $description = null;
     protected $required = false;
     protected $required_text = null;
 
