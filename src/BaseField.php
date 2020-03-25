@@ -33,9 +33,22 @@ class BaseField {
     
     protected $valid_field_attrs = [];
 
+    protected $no_assignment_attrs = [
+        'required',
+        'readonly',
+        'disabled',
+        'autofocus',
+        'autocomplete',
+        'multiple',
+    ];
+    
     protected function attr($k, $v){
-        $value = htmlspecialchars((string) $v);
-        return "$k='$value'";
+        if (in_array($k, $this->no_assignment_attrs)){
+            return "$k";
+        } else {
+            $value = htmlspecialchars((string) $v);
+            return "$k='$value'";     
+        }
     }
 
     protected function validate($k){
