@@ -157,10 +157,14 @@ class BaseField {
     }
 
     public function description(){
-        return $this->render(
-            $this->description_template, 
-            [':description' => htmlspecialchars($this->description)]
-        );
+        if ($this->description){
+            return $this->render(
+                $this->description_template,
+                [':description' => htmlspecialchars($this->description)]
+            );
+        } else {
+            return '';
+        }
     }
 
 }
