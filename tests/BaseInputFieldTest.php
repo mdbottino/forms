@@ -62,5 +62,21 @@ final class BaseInputFieldTest extends TestCase
         $this->assertEquals($input->widget($value), "<input name='$name' id='id_$name' type='' value='$value'>");
     }
 
+    public function testDataAttrs(): void {
+        $label = 'The Test';
+        $name = 'the_test';
+        $class = 'form-control';
+        $options = [
+            'attrs' => [
+                'class' => $class,
+                'data-field' => 'extra'   ,
+            ],
+            'required' => 'required'
+        ];
+
+        $input = new BaseInputField($name, $label, $options);
+        $this->assertEquals($input->widget(), "<input class='$class' data-field='extra' name='$name' id='id_$name' type='' value='' required>");
+    }
+
 }
 

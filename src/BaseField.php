@@ -60,7 +60,8 @@ class BaseField {
     protected function validate($k){
         $is_valid = in_array($k, $this->valid_attrs) || in_array($k, $this->valid_field_attrs);
         $is_omitted = in_array($k, $this->omitted_field_attrs);
-        return $is_valid && !$is_omitted;
+        $is_custom = strpos($k, 'data-') === 0;
+        return ($is_valid || $is_custom) && !$is_omitted;
     }
 
     protected function field_attrs(){
