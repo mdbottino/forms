@@ -29,6 +29,8 @@ class BaseField {
         'form',
         'autofocus',
         'autocomplete',
+        'maxlength',
+        'minlength',
     ];
     
     protected $valid_field_attrs = [];
