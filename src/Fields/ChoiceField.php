@@ -14,7 +14,8 @@ class ChoiceField extends BaseField {
     protected $extra_value = null;
     protected $choice_default = null;
 
-    protected $valid_field_attrs = ['selected'];
+    protected $valid_field_attrs = [];
+    protected $omitted_field_attrs = ['type', 'value'];
 
     protected $template = "<select :attrs>:options</select>";
     protected $option_template = "<option value=':value' :selected :custom>:desc</option>";
@@ -45,12 +46,6 @@ class ChoiceField extends BaseField {
             $this->choices = [];
         }
 
-        $this->remove_unneeded_attrs();
-    }
-
-    protected function remove_unneeded_attrs(){
-        $idx = array_search('type', $this->valid_attrs);
-        array_splice($this->valid_attrs, $idx);
     }
 
     protected function make_custom_attr($el){
@@ -80,7 +75,7 @@ class ChoiceField extends BaseField {
             $options[] = $this->render($this->option_template, [
                 ':value' => $value,
                 ':desc' => $choice[$this->choice_desc],
-                ':selected' => $value == $this->data ? 'selected' : '',
+                ':selected' => ($value == $data) ? 'selected' : '',
                 ':custom' => $custom,
             ]);
         }
