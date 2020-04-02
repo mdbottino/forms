@@ -31,6 +31,9 @@ class BaseField {
         'autocomplete',
         'maxlength',
         'minlength',
+        'id',
+        'name',
+        'type',
     ];
     
     protected $valid_field_attrs = [];
@@ -72,13 +75,16 @@ class BaseField {
     }
 
     protected function vars($old=null){
+        $this->attrs['name'] = $this->name();
+        $this->attrs['id'] = $this->id();
+        $this->attrs['type'] = $this->type();
+        $this->attrs['value'] = $this->data($old);
+        if ($this->required){
+            $this->attrs['required'] = true;
+        }
+        
         return [
-            ':name' => $this->name(),
-            ':id' => $this->id(),
-            ':type' => $this->type(),
-            ':data' => $this->data($old),
             ':attrs' => $this->field_attrs(),
-            ':required' => $this->required ? 'required' : '',
         ];
     }
 

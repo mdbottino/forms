@@ -6,5 +6,7 @@ class BaseInputField extends BaseField {
 
     protected $type = null;
 
-    protected $template = "<input id=':id' name=':name' type=':type' value=':data' :attrs :required >";
+    protected $valid_field_attrs = ['value'];
+
+    protected $template = "<input :attrs>";
 }

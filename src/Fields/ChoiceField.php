@@ -14,6 +14,13 @@ class ChoiceField extends BaseField {
     protected $extra_value = null;
     protected $choice_default = null;
 
+    protected $valid_field_attrs = ['selected'];
+
+    protected $template = "<select :attrs>:options</select>";
+    protected $option_template = "<option value=':value' :selected :custom>:desc</option>";
+
+
+
     public function __construct($name, $label, array $options=null){
 
         parent::__construct($name, $label, $options);
@@ -30,10 +37,20 @@ class ChoiceField extends BaseField {
                 $extra = $choices['extra'];
                 $this->extra_key =  isset($extra['key']) ? $extra['key'] : null;
                 $this->extra_value =  isset($extra['value']) ? $extra['value'] : null;
+                if ($this->extra_value){
+                    $this->valid_attrs[] = $this->extra_value;
+                } 
             }
         } else {
             $this->choices = [];
         }
+
+        $this->remove_unneeded_attrs();
+    }
+
+    protected function remove_unneeded_attrs(){
+        $idx = array_search('type', $this->valid_attrs);
+        array_splice($this->valid_attrs, $idx);
     }
 
     protected function make_custom_attr($el){
@@ -41,40 +58,38 @@ class ChoiceField extends BaseField {
         return $this->attr($this->extra_key, $value);
     }
 
-    public function widget($old=null){
-        $name = $this->name;
-        $id = $this->id();
-        $type = $this->type();
-        $data = $this->data($old);
-        $attrs = $this->field_attrs();
-        $required = $this->required ? 'required' : '';
-
-        $html = ["<select id='$id' name='$name' $attrs $required >"];
-
+    protected function render_options($data=null){
+        $options = [];
         if (!is_null($this->choice_default)){
-            $html[] = "<option value=''>{$this->choice_default}</option>";
+            $options[] = $this->render($option_template, [
+                ':value' => '',
+                ':desc' => $this->choice_default,
+            ]);
         }
-
-        $selected = '';
-        $custom = '';
 
         foreach ($this->choices as $choice) {
             $value = $choice[$this->choice_value];
-            $desc = $choice[$this->choice_desc];
-            if ($value == $this->data){
-                $selected = 'selected';
-            }
+            $custom = '';
 
             if (!is_null($this->extra_key)){
                 $custom = $this->make_custom_attr($choice);
             }
 
-            $html[] = "<option value='$value' $selected $custom >$desc</option>";
-            $selected = '';
+            $options[] = $this->render($this->option_template, [
+                ':value' => $value,
+                ':desc' => $choice[$this->choice_desc],
+                ':selected' => $value == $this->data ? 'selected' : '',
+                ':custom' => $custom,
+            ]);
         }
 
-        $html[] = '</select>';
+        return $options;
+    }
 
-        return implode($html);
+    protected function vars($old=null){
+        $vars = parent::vars($old);
+        $options = $this->render_options($this->data($old));
+        $vars[':options'] = implode($options);
+        return $vars;
     }
 }

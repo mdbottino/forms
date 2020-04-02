@@ -10,7 +10,7 @@ final class BaseInputFieldTest extends TestCase
         $label = 'The Test';
         $name = 'the_test';
         $input = new BaseInputField($name, $label);
-        $this->assertEquals($input->widget(), "<input id='id_$name' name='$name' type='' value=''   >");
+        $this->assertEquals($input->widget(), "<input name='$name' id='id_$name' type='' value=''>");
     }
 
     public function testRequired(): void {
@@ -21,7 +21,7 @@ final class BaseInputFieldTest extends TestCase
         ];
 
         $input = new BaseInputField($name, $label, $options);
-        $this->assertEquals($input->widget(), "<input id='id_$name' name='$name' type='' value=''  required >");
+        $this->assertEquals($input->widget(), "<input name='$name' id='id_$name' type='' value='' required>");
     }
 
     public function testClass(): void {
@@ -35,7 +35,7 @@ final class BaseInputFieldTest extends TestCase
         ];
 
         $input = new BaseInputField($name, $label, $options);
-        $this->assertEquals($input->widget(), "<input id='id_$name' name='$name' type='' value='' class='$class'  >");
+        $this->assertEquals($input->widget(), "<input class='$class' name='$name' id='id_$name' type='' value=''>");
     }
 
     public function testClassRequired(): void {
@@ -50,7 +50,7 @@ final class BaseInputFieldTest extends TestCase
         ];
 
         $input = new BaseInputField($name, $label, $options);
-        $this->assertEquals($input->widget(), "<input id='id_$name' name='$name' type='' value='' class='$class' required >");
+        $this->assertEquals($input->widget(), "<input class='$class' name='$name' id='id_$name' type='' value='' required>");
     }
 
     public function testData(): void {
@@ -59,7 +59,7 @@ final class BaseInputFieldTest extends TestCase
         $value = 110;
 
         $input = new BaseInputField($name, $label);
-        $this->assertEquals($input->widget($value), "<input id='id_$name' name='$name' type='' value='$value'   >");
+        $this->assertEquals($input->widget($value), "<input name='$name' id='id_$name' type='' value='$value'>");
     }
 
 }
