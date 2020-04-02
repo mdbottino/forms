@@ -37,6 +37,7 @@ class BaseField {
     ];
     
     protected $valid_field_attrs = [];
+    protected $omitted_field_attrs = [];
 
     protected $no_assignment_attrs = [
         'required',
@@ -57,7 +58,9 @@ class BaseField {
     }
 
     protected function validate($k){
-        return in_array($k, $this->valid_attrs) || in_array($k, $this->valid_field_attrs);
+        $is_valid = in_array($k, $this->valid_attrs) || in_array($k, $this->valid_field_attrs);
+        $is_omitted = in_array($k, $this->omitted_field_attrs);
+        return $is_valid && !$is_omitted;
     }
 
     protected function field_attrs(){
