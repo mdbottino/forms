@@ -61,9 +61,11 @@ class ChoiceField extends BaseField {
     protected function render_options($data=null){
         $options = [];
         if (!is_null($this->choice_default)){
-            $options[] = $this->render($option_template, [
+            $options[] = $this->render($this->option_template, [
                 ':value' => '',
                 ':desc' => $this->choice_default,
+                ':selected' => null,
+                ':custom' => null,
             ]);
         }
 
