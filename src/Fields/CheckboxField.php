@@ -10,7 +10,7 @@ class CheckboxField extends BaseInputField {
     protected $template = "<input id=':id' name=':name' type=':type' :checked :attrs :required>";
     protected $type = 'checkbox';
 
-    protected function vars($old){
+    protected function vars($old=null){
         $data = $this->data($old);
 
         $vars = parent::vars($old);
